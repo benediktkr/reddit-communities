@@ -82,17 +82,25 @@ def recur_dfs2(node, lvl=0):
         known_nodes[node] == "VISITED"
     
 def bfs(start):
+    f = open('bfs.txt', 'a')
     todo = deque()
     visited = set()
     todo.append(start)
     while len(todo) > 0:
         node = todo.popleft()
+        if node in visited:
+            continue  
+        visited.add(node)
         for child in linked_subreddits(node):
             edge = (node, child)
             if child not in visited:
                 todo.append(child)
-            print node, "->", child
-        visited.add(node)
+        
+            link = "{0} -> {1}".format(node, child)
+            f.write(link)
+            print link
+            #yield (node, child)
+
     
 
 if __name__ == "__main__":
