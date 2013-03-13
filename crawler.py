@@ -4,7 +4,7 @@ import sys
 import json
 import requests
 import re
-from collections import defaultdict
+from collections import defaultdict, deque
 
 h = {'user-agent': '/u/benediktkr crawling reddit to graph communities'}
 client = requests.session()
@@ -59,7 +59,7 @@ def recur_dfs(node, lvl=0):
 
 known_nodes = defaultdict(str)
 f = open('reddit-bfs-2.txt', 'a')
-def recur_bfs(node, lvl=0):
+def recur_dfs2(node, lvl=0):
     if known_nodes[node] == "VISITED":
         return ""
     if known_nodes[node] == "DISCOVERED":
@@ -81,13 +81,25 @@ def recur_bfs(node, lvl=0):
             recur_bfs(node, lvl+1)
         known_nodes[node] == "VISITED"
     
+def bfs(start):
+    todo = deque()
+    visited = set()
+    todo.append(start)
+    while len(todo) > 0:
+        node = todo.popleft()
+        for child in linked_subreddits(node):
+            edge = (node, child)
+            if child not in visited:
+                todo.append(child)
+            print node, "->", child
+        visited.add(node)
     
 
 if __name__ == "__main__":
     sys.setrecursionlimit(10*sys.getrecursionlimit())
     try:
         if len(sys.argv) == 2 or "--bfs" in sys.argv:
-            recur_bfs(fix(sys.argv[1]))
+            bfs(fix(sys.argv[1]))
         if "--dfs" in sys.argv:
             recur_dfs(fix(sys.argv[1]))
 
