@@ -4,7 +4,10 @@ import sys
 import json
 import requests
 import re
+import sqlite3
+from datetime import datetime
 from collections import defaultdict, deque
+
 
 h = {'user-agent': '/u/benediktkr crawling reddit to graph communities'}
 client = requests.session()
@@ -19,21 +22,31 @@ client = requests.session()
 found = set()
 
 def linked_subreddits(subreddit):
-    try:
-        url = 'http://www.reddit.com/%s/about.json' % subreddit[1:-1]
-        r = client.get(url,  headers=h)
-    except requests.exceptions.ConnectionError as ce:
-        print datetime.now(), ce
-
+    url = 'http://www.reddit.com/%s/about.json' % subreddit[1:-1]
+    r = client.get(url,  headers=h)
+    
     try:
         j = json.loads(r.text)
-        regex = re.findall(r'/r/\w+/?', j['data']['description']) #
-    except Exception as ex:
+    except ValueError:
         print subreddit, "not found"
-        return ""
+        return {'links': [],
+                'subscribers': 0
+                }
+    if "error" in j or j['data']['description'] == None:
+        print subreddit, "not found"
+        return {'links': [],
+                'subscribers': 0
+                }
 
+
+    regex = re.findall(r'/r/\w+/?', j['data']['description']) #
+    subscribers = int(j['data']['subscribers'])
     subreddits = list(set([fix(a) for a in regex]))
-    return [s for s in subreddits if s != subreddit]
+
+    return {
+        'links': [s for s in subreddits if s != subreddit],
+        'subscribers': subscribers
+    }
             
 def fix(s):
     if s[0:2] == "r/":
@@ -44,13 +57,13 @@ def fix(s):
     
 def links(subr):
     subr = fix(subr)
-    print subr, "-", ', '.join(linked_subreddits(subr.lower()))
+    print subr, "-", ', '.join(linked_subreddits(subr.lower())['links'])
 
 
 def recur_dfs(node, lvl=0):
     if node not in found:
         found.add(node)
-        l = linked_subreddits(node)
+        l = linked_subreddits(node)['links']
         #print str(lvl).ljust(7), node
     
         for r in l:
@@ -63,14 +76,14 @@ def recur_dfs2(node, lvl=0):
     if known_nodes[node] == "VISITED":
         return ""
     if known_nodes[node] == "DISCOVERED":
-        l = linked_subreddits(node)
+        l = linked_subreddits(node)['links']
         for r in l:
             if known_nodes[r] == "DISCOVERED":
                 pass
             else:
                 recur_bfs(r, lvl+1)
     if known_nodes[node] == "":
-        l = linked_subreddits(node)
+        l = linked_subreddits(node)['links']
         for target in l:
             link = "{0} -> {1}".format(node, target)
             f.write(link + "\n")
@@ -83,6 +96,9 @@ def recur_dfs2(node, lvl=0):
     
 def bfs(start):
     f = open('bfs.txt', 'a')
+    cnxn = sqlite3.connect('data/reddit.db')
+    cursor = cnxn.cursor()
+    subrsql = "insert into subreddits values(?, ?, ?)"
     todo = deque()
     visited = set()
     todo.append(start)
@@ -91,15 +107,23 @@ def bfs(start):
         if node in visited:
             continue  
         visited.add(node)
-        for child in linked_subreddits(node):
+        l =  linked_subreddits(node)
+        cursor.execute(subrsql, (node, l['subscribers'], datetime.now()))
+
+        for child in l['links']:
             edge = (node, child)
             if child not in visited:
                 todo.append(child)
         
             link = "{0} -> {1}".format(node, child)
+            cursor.execute("insert into mapping values(?, ?)", edge)
             f.write(link)
-            print link
-            #yield (node, child)
+            print datetime.now().replace(microsecond=0), link
+
+        f.flush()
+        cnxn.commit()
+    f.close()
+    cnxn.close()
 
     
 
