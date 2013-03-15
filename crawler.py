@@ -8,6 +8,7 @@ import sqlite3
 from datetime import datetime
 from collections import defaultdict, deque
 
+# pip install pysqlite
 
 h = {'user-agent': '/u/benediktkr crawling reddit to graph communities'}
 client = requests.session()
@@ -70,8 +71,8 @@ def recur_dfs(node, lvl=0):
             print node, "->", r
             recur_dfs(r, lvl+1)
 
-known_nodes = defaultdict(str)
-f = open('reddit-bfs-2.txt', 'a')
+#known_nodes = defaultdict(str)
+#f = open('reddit-dfs-2.txt', 'a')
 def recur_dfs2(node, lvl=0):
     if known_nodes[node] == "VISITED":
         return ""
