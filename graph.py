@@ -11,10 +11,16 @@ def print_shortest_paths(graph, node, to):
             print graph.vs[node]['name'], 
         print
 
-conn = sqlite3.connect('data/reddit.db')
-cursor = conn.cursor()
-g = igraph.Graph(directed=True)
-g.add_vertices([a[0] for a in cursor.execute("select name from subreddits").fetchall()])
-g.add_edges(cursor.execute("select * from mapping").fetchall())
+
+if __name__ == "__main__":
+    conn = sqlite3.connect('data/reddit.db')
+    cursor = conn.cursor()
+    vertices = set([a[0] for a in cursor.execute("select name from subreddits where subscribers >= 100000;")])
+    edges = set([(a, b) for a, b in cursor.execute("select * from mapping") if (a in vertices) and (b in vertices)])
+    
+    
+    g = igraph.Graph(directed=True)
+    g.add_vertices(list(vertices))
+    g.add_edges(list(edges))
 #glayout = g.layout("fr")
 
