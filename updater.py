@@ -8,7 +8,7 @@ def update():
     subreddits = db.get_subreddits()
     for s in subreddits:
         print s,
-        l = crawler2.parse_sidebar(s)
+        l = crawler.parse_sidebar(s)
         if "error" in l:
             print l['error'], "!!"
             db.update_status(s, l['error'])
