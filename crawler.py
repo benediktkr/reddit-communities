@@ -22,7 +22,7 @@ def fix(s):
 def parse_sidebar(subreddit):
     url = 'http://www.reddit.com/{0}/about.json'.format(subreddit[1:-1])
     r = client.get(url, headers=headers)
-    j = r.json
+    j = r.json()
     if j == None or "error" in j:
         return {'name': subreddit,
                 'links': [],
