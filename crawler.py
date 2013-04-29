@@ -8,6 +8,7 @@ import sqlite3
 from datetime import datetime
 from collections import deque
 import dbmodel
+import sys
 
 headers = {'user-agent': '/u/benediktkr crawling reddit to graph communities'}
 client = requests.session()
@@ -22,13 +23,18 @@ def fix(s):
 def parse_sidebar(subreddit):
     url = 'http://www.reddit.com/{0}/about.json'.format(subreddit[1:-1])
     r = client.get(url, headers=headers)
-    j = r.json()
-    if j == None or "error" in j:
+    mark = False
+    try:
+        j = json.loads(r.text)
+    except ValueError:
+        mark = True
+
+    if mark or "error" in j:
         return {'name': subreddit,
                 'links': [],
                 'subscribers': 0,
                 'created': None,
-                'error': "dunno" if j == None else j['error']}
+                'error': "dunno" if mark else j['error']}
             
     if j['data']['description']:
         regex = re.findall(r'/r/\w+/?', j['data']['description'])
