@@ -1,6 +1,6 @@
 import dbmodel
 import sqlite3
-import crawler2
+import crawler
 
 def update():
     conn = sqlite3.connect("data/reddit.db")

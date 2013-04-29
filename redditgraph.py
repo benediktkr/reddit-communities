@@ -23,41 +23,38 @@ def graph():
 
 def layout(algorithm):
     g = graph()
-    if not os.path.exists("{0}.pickle".format(algorithm)):
+    filename = "data/pickejar/{0}.pickle".format(algorithm)
+    if not os.path.exists(filename):
         print "Pickling to file"
         glayout = g.layout(algorithm)
-        with open("{0}.pickle".format(algorithm), "wb") as f:
+        with open(filename, "wb") as f:
             pickle.dump(glayout, f, pickle.HIGHEST_PROTOCOL)
     else:
         print "I had a jar of pickles for this one"
-        with open("{0}.pickle".format(algorithm), "rb") as f:
+        with open(filename, "rb") as f:
             glayout = pickle.load(f)
     return glayout
 
-def main():
+def create_layouts():
     algorithms = ["auto",
                   "lgl",  # Large graph
                   "fr",          # Fruchterman-Reingold
                   "gfr",         # Grid-based Fruchterman-Reingold 
                   "graphopt",    # graphopt algorithm
                   "kk",          # Kamada-Kawai
-                  "rt",          # Reingold-Tilford tree layout
-                  "sugiyama",    # Sugiyama layout
-                  "rt_circular", # circular Reingold-Tilford tree layout
                   "circle",
                   "grid",        # Regular 2D grid
-                  "kk_3d",       # 3D Kamada-Kawai
-                  "fr_3d",       # 3D Fruchterman- Reingold layout
-                  "drl",
-                  "drl_3d"]
-
+                  "drl"]
+                 
     g = graph()
     for a in algorithms:
         print datetime.now(), "-",
-        print a, "start"
+        print "algorithm:", a
         l = layout(a)
         #igraph.plot(g, layout=l, vertex_size=2).save("{0}.png".format(a))
-    
+
+def main():
+    create_layouts()
 
 if __name__ == "__main__":
     main()

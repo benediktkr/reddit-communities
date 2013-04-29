@@ -1,0 +1,20 @@
+Notes for the project "Reddit Communities" 
+==========================================
+
+
+ Layout algorithms not used
+ ==========================
+ For layouts actually used, see the code.
+
+ - The Sugiyama layout algorithm repeatedly segfaulted.
+   "sugiyama":    Sugiyama layout. Segmentation fault.
+
+ - Reingold-Tilford tree layouts. Reddit is not a tree
+   "rt":          Reingold-Tilford tree layout
+   "rt_circular": circular Reingold-Tilford tree layout
+   
+ - Various 3D layouts
+   "kk_3d":   3D Kamada-Kawai
+   "fr_3d":   3D Fruchterman- Reingold layout
+   "drl_3d"
+
