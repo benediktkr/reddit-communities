@@ -24,3 +24,5 @@ if __name__ == "__main__":
     g.add_edges(list(edges))
 #glayout = g.layout("fr")
 
+# Top 10
+#  >>> sorted([(i['name'], g.degree(i, type="in")) for i in g.vs], key=lambda a: a[1], reverse=True)[0:10]
