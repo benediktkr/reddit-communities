@@ -19,6 +19,7 @@ I have found that some communities are topologically disconnected from the rest 
 If we order subreddits with respect to their in-degree (number of subreddits linking to them) and without regard of the number of subscribers, we reveal one interesting statistic abour reddit. 
 
 This is the top 10:
+
      $ python graph.py
      0. /r/music/
      1. /r/kateupton/
