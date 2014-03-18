@@ -1,20 +1,21 @@
 reddit-communities
 ==============
 
-This is my humble try at crawling and graphic reddit, with the purpose
-of analysing it as a social network.
+Crawling and graphig reddit, with the purpose of analysing it as a social network.
 
 How?
 --------------
 
-Subreddits commonly link to other subreddits in their "sidebar". This is available with the Reddit API. I then interpret each subreddit as a vertex in the graph and the links as edges. 
+Subreddits commonly link to other subreddits in their "sidebar". This is available with the Reddit API. We then interpret each subreddit as a vertex in the graph and the links between subreddits as edges. 
 
 Novel findings
 ---------------
 
 So far I have crawled about 17,000 subreddits (vertices) and just above 100,000 links (edges) between them. There are much more according to metareddit. 
 
-I have found that some communities are topologically disconnected from the rest of reddit. But since we have a directed graph, they are not nessecarily topologically disconnected from reddit. A prime exaple of this are the communities formed around /r/clojure/. 
+The starting point has been `/r/Iceland/`, with no special reason except I've frequented it the longest. 
+
+I have found that some communities are topologically disconnected from the rest of reddit. But since this is a directed graph, they are not nessecarily topologically disconnected from reddit. A prime exaple of this are the communities formed around /r/clojure/. 
 
 If we order subreddits with respect to their in-degree (number of subreddits linking to them) and without regard of the number of subscribers, we reveal one interesting statistic abour reddit. 
 
@@ -32,9 +33,31 @@ This is the top 10:
      8. /r/emiliaclarke/
      9. /r/arianagrande/
 
-In case you are wondering, the Top 100 list shows the same behavoir. Wtf, Reddit?
+In case you are wondering, the Top 100 list shows the same behavoir. wtf, Reddit?
+
+Notes
+========
+
+Layout algorithms not used (igraph)
+------
+ For layouts actually used, see the code.
+
+ - The Sugiyama layout algorithm repeatedly segfaulted.
+   "sugiyama":    Sugiyama layout. Segmentation fault.
+
+ - Reingold-Tilford tree layouts. Reddit is not a tree
+   "rt":          Reingold-Tilford tree layout
+   "rt_circular": circular Reingold-Tilford tree layout
+   
+ - Various 3D layouts
+   "kk_3d":   3D Kamada-Kawai
+   "fr_3d":   3D Fruchterman- Reingold layout
+   "drl_3d"
 
 Author
------------------
+==========
+
 Benedikt Kristinsson 
-benedikt.k@gmail.com
+
+benedikt@inventati.org
+
