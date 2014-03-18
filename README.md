@@ -11,7 +11,7 @@ Subreddits commonly link to other subreddits in their "sidebar". This is availab
 Novel findings
 ---------------
 
-So far I have crawled about 17,000 subreddits (vertices) and just above 100,000 links (edges) between them. There are much more according to metareddit. 
+So far I have crawled about 24,000 subreddits (vertices) and just above 160,000 links (edges) between them. There are much more according to metareddit. 
 
 The starting point has been `/r/Iceland/`, with no special reason except I've frequented it the longest. 
 
