@@ -5,6 +5,10 @@ import pickle
 import os
 from datetime import datetime
 
+
+"""This file creates igraph layouts and pickes them to file. 
+"""
+
 # Helpers
 first = lambda l: l[0]
 

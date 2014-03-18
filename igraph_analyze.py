@@ -1,6 +1,8 @@
 import sqlite3
 import igraph
 
+"""Work with the graph from DB."""
+
 def reddit():
     """Return an igraph instance of Reddit from data/reddit.db"""
     conn = sqlite3.connect('data/reddit.db')

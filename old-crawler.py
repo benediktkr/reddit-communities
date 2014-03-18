@@ -8,6 +8,11 @@ import sqlite3
 from datetime import datetime
 from collections import defaultdict, deque
 
+"""OBSOLETE AND NOT USED.
+
+Has some weird DFS implementations. The code is mainly the same as crawler.py,
+I think I cretated crawler.py instead of cleaning this file up. """
+
 # pip install pysqlite
 
 h = {'user-agent': '/u/benediktkr crawling reddit to graph communities'}
@@ -56,11 +61,6 @@ def fix(s):
         s = s + "/"
     return s.lower()
     
-def links(subr):
-    subr = fix(subr)
-    print subr, "-", ', '.join(linked_subreddits(subr.lower())['links'])
-
-
 def recur_dfs(node, lvl=0):
     if node not in found:
         found.add(node)
