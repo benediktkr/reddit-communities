@@ -53,8 +53,20 @@ class DBModel(object):
         self.cnxn.comit()
 
     def get_subreddits(self):
-        sql = "select name from subreddits"
-        return set([a[0] for a in self.cursor.execute(sql)])
+        sql = "select name, subscribers, created, status from subreddits"
+        return list(self.cnxn.execute(sql))
+
+    def get_subreddit(self, name):
+        sql = "select name, subscribers, created, status from subreddits where name=?"
+        return self.cnxn.execute(sql, (name, )).fetchone()
+
+    def get_all_links(self):
+        sql = "select * from mapping"
+        return list(self.cnxn.execute(sql))
+
+    def get_links_from(self, source):
+        sql = "select * from mapping where source=?"
+        return list(self.cnxn.execute(sql, (source, )))
 
     def close(self):
         self.cnxn.close()
