@@ -3,7 +3,7 @@ reddit-communities
 
 Crawling and graphig reddit, with the purpose of analysing it as a social network.
 
-![Yifan-Hu](/data/yifan-hu-0.png)
+![Yifan-Hu](/data/yifan-hu-1.png)
 
 How?
 --------------
