@@ -17,7 +17,7 @@ Usage
 
 1. Use `crawler.py` to crawl from a given start and build the sqlite database in `data/reddit.db`
 
-    $ python crawler.py /r/Iceland/
+        $ python crawler.py /r/Iceland/
 
 2. Use `graphtool_analyze.py` to create `data/reddit.gml` to open with gephi. I've also used igraph. The file `igraph_analyze` programmatically calculates some statistics (mean geodesic distance and the top list based on vertex-degree). 
 
