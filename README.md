@@ -3,10 +3,23 @@ reddit-communities
 
 Crawling and graphig reddit, with the purpose of analysing it as a social network.
 
+![Yifan-Hu](/data/yifan-hu-0.png)
+
 How?
 --------------
 
 Subreddits commonly link to other subreddits in their "sidebar". This is available with the Reddit API. We then interpret each subreddit as a vertex in the graph and the links between subreddits as edges. 
+
+I first wrote a crawler that saves the info in a sqlite database. Then it's easy to convert that data into whatever analytic tools I want to use. 
+
+Usage 
+-------------
+
+1. Use `crawler.py` to crawl from a given start and build the sqlite database in `data/reddit.db`
+
+    $ python crawler.py /r/Iceland/
+
+2. Use `graphtool_analyze.py` to create `data/reddit.gml` to open with gephi. I've also used igraph. The file `igraph_analyze` programmatically calculates some statistics (mean geodesic distance and the top list based on vertex-degree). 
 
 Novel findings
 ---------------
