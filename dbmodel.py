@@ -37,6 +37,12 @@ class DBModel(object):
 
     def commit(self):
         self.cnxn.commit()
+
+    def save_comment_link(self, username, subreddit):
+        sql = """insert or replace into comments(username, subreddit)
+                 values(?, ?)"""
+        self.cnxn.execute(sql, (username, subreddit))
+        self.cnxn.commit()
         
     def save_link(self, link):
         self.cnxn.execute("insert or replace into mapping values(?, ?)", link)
