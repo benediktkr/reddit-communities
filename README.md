@@ -24,8 +24,8 @@ Sidebar data
 
 2. Use `graphtool_analyze.py` to create `data/reddit.gml` to open with gephi. I've also used igraph. The file `igraph_analyze` programmatically calculates some statistics (mean geodesic distance and the top list based on vertex-degree). 
 
-Comments
-====
+Comments data
+======
 
 1. To crawl comments, run `comments.py` and leave it running. 
 
@@ -35,7 +35,20 @@ Comments
 
         $ python comments-tools.py --convert
 
-The data then gets stored in the table `comments_mapping` as an undirected graph. This otherwise mirrors the format of the data in `mapping` and now `graphtool_analyze.py` (i need to get better at naming things) should work on this dataset as well.
+  The data then gets stored in the table `comments_mapping` as an undirected graph. This otherwise mirrors the format of the data in `mapping` and now `graphtool_analyze.py` (i need to get better at naming things) should work on this dataset as well.
+
+Methodology
+-----
+
+I realized that there are two sources of data that connect subreddits together. 
+
+1. The links in the sidebar
+2. If a user comments in two or more subreddits, these subreddits are connected by the user. This might reveal intersting data about what people are interested in. 
+
+Ideas and improvements
+-----
+
+At first i decided to ignore edge weight, but I have realized this might be useful data. My idea is to change the comments method to use the number of users that have commmented in the same pairs of subreddits as weight. 
 
 Novel findings
 ---------------
