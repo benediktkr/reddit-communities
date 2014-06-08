@@ -24,7 +24,8 @@ def convert():
     print "saving to database"
     for pair in links:
         model.save_comment_link(pair)
-    dbmodel.close()
+    model.commit()
+    model.close()
             
         
 if __name__ == "__main__":

@@ -50,8 +50,7 @@ class DBModel(object):
             yield row
 
     def save_comment_link(self, link):
-        self.cnxn.execute("insert or replace into mapping values(?, ?)", link)
-        self.cnxn.commit()
+        self.cnxn.execute("insert or replace into comments_mapping values(?, ?)", link)
     
     def save_link(self, link):
         sql = "insert or replace into comments_mapping values(?, ?)"
@@ -111,8 +110,7 @@ class DBModel(object):
 
         self.cnxn.execute("""create table comments_mapping (
             vertex0 text,
-            vertex1 text,
-            primary key(vertex0, vertex1)
+            vertex1 text
             )""")
 
 
