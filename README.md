@@ -15,11 +15,27 @@ I first wrote a crawler that saves the info in a sqlite database. Then it's easy
 Usage 
 -------------
 
+Sidebar data 
+====
+
 1. Use `crawler.py` to crawl from a given start and build the sqlite database in `data/reddit.db`
 
         $ python crawler.py /r/Iceland/
 
 2. Use `graphtool_analyze.py` to create `data/reddit.gml` to open with gephi. I've also used igraph. The file `igraph_analyze` programmatically calculates some statistics (mean geodesic distance and the top list based on vertex-degree). 
+
+Comments
+====
+
+1. To crawl comments, run `comments.py` and leave it running. 
+
+        $ python comments.py
+
+2. Convert this data to the same format as from `crawler.py` with `comments-tools.py`. 
+
+        $ python comments-tools.py --convert
+
+The data then gets stored in the table `comments_mapping` as an undirected graph. This otherwise mirrors the format of the data in `mapping` and now `graphtool_analyze.py` (i need to get better at naming things) should work on this dataset as well.
 
 Novel findings
 ---------------

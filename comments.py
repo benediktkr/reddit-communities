@@ -21,7 +21,7 @@ def main():
             for comment in comments:
                 username = str(comment.author)
                 subreddit = "/r/" + str(comment.subreddit).lower() + "/"
-                model.save_comment_link(username, subreddit)
+                model.save_comment(username, subreddit)
             print "    [+] Done"
     except KeyboardInterrupt:
         model.close()

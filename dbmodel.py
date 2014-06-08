@@ -38,14 +38,24 @@ class DBModel(object):
     def commit(self):
         self.cnxn.commit()
 
-    def save_comment_link(self, username, subreddit):
+    def save_comment(self, username, subreddit):
         sql = """insert or replace into comments(username, subreddit)
                  values(?, ?)"""
         self.cnxn.execute(sql, (username, subreddit))
         self.cnxn.commit()
-        
-    def save_link(self, link):
+
+    def get_comments_generator(self):
+        sql = "select username, subreddit from comments"
+        for row in self.cnxn.execute(sql):
+            yield row
+
+    def save_comment_link(self, link):
         self.cnxn.execute("insert or replace into mapping values(?, ?)", link)
+        self.cnxn.commit()
+    
+    def save_link(self, link):
+        sql = "insert or replace into comments_mapping values(?, ?)"
+        self.cnxn.execute(sql, link)
         self.cnxn.commit()
 
     def save_subreddit(self, subreddit, status="good"):
@@ -92,5 +102,19 @@ class DBModel(object):
             status text,
             primary key (name)
             )""")
+
+        self.cnxn.execute("""create table comments (
+            username text,
+            subreddit text,
+            primary key(username, subreddit)
+            )""")
+
+        self.cnxn.execute("""create table comments_mapping (
+            vertex0 text,
+            vertex1 text,
+            primary key(vertex0, vertex1)
+            )""")
+
+
         self.cnxn.commit()
 
