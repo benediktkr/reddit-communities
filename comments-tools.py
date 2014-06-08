@@ -27,8 +27,18 @@ def convert():
     model.commit()
     model.close()
             
+
+def check(s0, s1):
+    model = dbmodel.DBModel.get()
+    first = set(model.get_comment_links(s0))
+    second = set(model.get_comment_links(s1))
+    return len(first.intersection(second)) > 0
+    
         
 if __name__ == "__main__":
     import sys
     if sys.argv[1] == "--convert":
-        convert()
+        print convert()
+    elif sys.argv[1] == "--check":
+        subr0, subr1 = sys.argv[2], sys.argv[3]
+        print check(subr0, subr1)

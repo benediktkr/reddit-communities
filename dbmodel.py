@@ -49,6 +49,10 @@ class DBModel(object):
         for row in self.cnxn.execute(sql):
             yield row
 
+    def get_comment_links(self, target):
+        sql = "select * from comments_mapping where vertex0=? or vertex1=?"
+        return self.cnxn.execute(sql, (target, target))
+
     def save_comment_link(self, link):
         self.cnxn.execute("insert or replace into comments_mapping values(?, ?)", link)
     
