@@ -24,12 +24,6 @@ Sidebar data
 
 2. Use `graphtool_analyze.py` to create `data/reddit.gml` to open with gephi. I've also used igraph. The file `igraph_analyze` programmatically calculates some statistics (mean geodesic distance and the top list based on vertex-degree). 
 
-3. You can use `comments-tools.py` to check if a link exists between subreddits:
-
-        $ python comments-tools.py --check /r/askreddit/ /r/programming/
-        True
-
-
 Comments data
 ======
 
@@ -42,6 +36,13 @@ Comments data
         $ python comments-tools.py --convert
 
   The data then gets stored in the table `comments_mapping` as an undirected graph. This otherwise mirrors the format of the data in `mapping` and now `graphtool_analyze.py` (i need to get better at naming things) should work on this dataset as well.
+
+3. You can use `comments-tools.py` to check if a link exists between subreddits:
+
+        $ python comments-tools.py --check /r/askreddit/ /r/programming/
+        True
+
+
 
 Methodology
 -----
