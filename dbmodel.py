@@ -12,9 +12,10 @@ def singleton(class_):
             _instances[class_] = class_(*args, **kwargs)
         return _instances[class_]
     return getinstance"""
-        
+
 #@singleton
 
+# bad name, just python-to-sqlite
 class DBModel(object):
     def __init__(self, connection):
         self.cnxn = connection
@@ -54,8 +55,9 @@ class DBModel(object):
         return self.cnxn.execute(sql, (target, target))
 
     def save_comment_link(self, link):
+        # i can be a dumb programmer too, mismatch between name i sql and python
         self.cnxn.execute("insert or replace into comments_mapping values(?, ?)", link)
-    
+
     def save_link(self, link):
         sql = "insert or replace into comments_mapping values(?, ?)"
         self.cnxn.execute(sql, link)
@@ -65,7 +67,7 @@ class DBModel(object):
         sql = "insert or replace into subreddits(name, subscribers, date, created, status) values(?, ?, ?, ?, ?)"
         self.cnxn.execute(sql, (subreddit['name'], subreddit['subscribers'], datetime.now(), subreddit['created'], status))
         self.cnxn.commit()
-        
+
     def update_status(self, name, status):
         sql = "update subreddits set status=? where name=?"
         self.cursor.execute(sql, (status, name))
@@ -119,4 +121,3 @@ class DBModel(object):
 
 
         self.cnxn.commit()
-
